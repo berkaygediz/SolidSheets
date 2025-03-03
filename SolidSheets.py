@@ -39,7 +39,7 @@ except:
 class SS_ControlInfo(QMainWindow):
     def __init__(self, parent=None):
         super().__init__(parent)
-        
+
         self.setAttribute(Qt.WidgetAttribute.WA_TranslucentBackground)
         self.setWindowIcon(QIcon(fallbackValues["icon"]))
         self.setWindowModality(Qt.WindowModality.ApplicationModal)
@@ -96,7 +96,9 @@ class SS_About(QMainWindow):
         )
         self.about_label = QLabel()
         self.about_label.setWordWrap(True)
-        self.about_label.setTextInteractionFlags(Qt.TextInteractionFlag.TextSelectableByMouse)
+        self.about_label.setTextInteractionFlags(
+            Qt.TextInteractionFlag.TextSelectableByMouse
+        )
         self.about_label.setTextFormat(Qt.TextFormat.RichText)
         self.about_label.setText(
             "<center>"
@@ -182,6 +184,7 @@ class SS_Help(QMainWindow):
 
         self.setCentralWidget(scroll_area)
 
+
 class SS_UndoCommand(QUndoCommand):
     def __init__(self, table, old_data, new_data, row, col):
         super().__init__()
@@ -205,6 +208,7 @@ class SS_UndoCommand(QUndoCommand):
 
     def undo(self):
         self._set_item_text(self.old_data)
+
 
 class SS_Workbook(QMainWindow):
     def __init__(self, parent=None):
@@ -287,15 +291,16 @@ class SS_Workbook(QMainWindow):
         self.status_bar.showMessage(
             str((endtime - starttime).total_seconds()) + " sec", 2500
         )
-        
-    def createUndoCommand(self, item):
-        old_data = item.data(Qt.ItemDataRole.DisplayRole) 
-        new_data = item.text() 
 
-        command = SS_UndoCommand(self.SpreadsheetArea, old_data, new_data, item.row(), item.column())
+    def createUndoCommand(self, item):
+        old_data = item.data(Qt.ItemDataRole.DisplayRole)
+        new_data = item.text()
+
+        command = SS_UndoCommand(
+            self.SpreadsheetArea, old_data, new_data, item.row(), item.column()
+        )
 
         self.undo_stack.push(command)
-        
 
     def closeEvent(self, event):
         if self.is_saved == False:
@@ -353,7 +358,7 @@ class SS_Workbook(QMainWindow):
         self.setWindowTitle(
             f"{file}{asterisk}{textMode} — {app.applicationDisplayName()}"
         )
-            
+
     def updateStatistics(self):
         row = self.SpreadsheetArea.rowCount()
         column = self.SpreadsheetArea.columnCount()
@@ -404,26 +409,39 @@ class SS_Workbook(QMainWindow):
         settings.setValue("defaultDirectory", self.default_directory)
         settings.setValue("fileName", self.file_name)
         settings.setValue("isSaved", self.is_saved)
-        settings.setValue("scrollPosition", self.SpreadsheetArea.verticalScrollBar().value())
+        settings.setValue(
+            "scrollPosition", self.SpreadsheetArea.verticalScrollBar().value()
+        )
 
         theme = "dark" if self.palette() == self.dark_theme else "light"
         settings.setValue("appTheme", theme)
         settings.setValue("appLanguage", self.language_combobox.currentData())
         settings.setValue("adaptiveResponse", self.adaptiveResponse)
         settings.sync()
-        
+
     def restoreState(self):
         geometry = settings.value("windowScale")
         self.directory = settings.value("defaultDirectory", self.default_directory)
-        self.file_name = settings.value("fileName")
         self.is_saved = settings.value("isSaved")
-        
+
         lang_index = self.language_combobox.findData(globalLang)
         if lang_index != -1:
             self.language_combobox.setCurrentIndex(lang_index)
 
         if geometry:
             self.restoreGeometry(geometry)
+
+        if len(sys.argv) > 1:
+            file_to_open = os.path.abspath(sys.argv[1])
+            if os.path.exists(file_to_open):
+                self.file_name = file_to_open
+            else:
+                QMessageBox.warning(
+                    self, "File Not Found", f"The file '{file_to_open}' does not exist."
+                )
+                return
+        else:
+            self.file_name = settings.value("fileName")
 
         if self.file_name and os.path.exists(self.file_name):
             if self.file_name.endswith(".xlsx"):
@@ -442,10 +460,11 @@ class SS_Workbook(QMainWindow):
         self.adaptiveResponse = settings.value("adaptiveResponse")
         self.restoreTheme()
         self.updateTitle()
-        
 
     def setSpreadsheetSize(self):
-        column_count = int(settings.value("columnCount", self.SpreadsheetArea.columnCount()))
+        column_count = int(
+            settings.value("columnCount", self.SpreadsheetArea.columnCount())
+        )
         row_count = int(settings.value("rowCount", self.SpreadsheetArea.rowCount()))
         self.SpreadsheetArea.setColumnCount(column_count)
         self.SpreadsheetArea.setRowCount(row_count)
@@ -456,19 +475,25 @@ class SS_Workbook(QMainWindow):
                 rowspan = settings.value(f"row{row}column{column}rowspan", None)
                 columnspan = settings.value(f"row{row}column{column}columnspan", None)
                 if rowspan and columnspan:
-                    self.SpreadsheetArea.setSpan(row, column, int(rowspan), int(columnspan))
+                    self.SpreadsheetArea.setSpan(
+                        row, column, int(rowspan), int(columnspan)
+                    )
 
         for row in range(self.SpreadsheetArea.rowCount()):
             for column in range(self.SpreadsheetArea.columnCount()):
                 cell_text = settings.value(f"row{row}column{column}text", None)
                 if cell_text is not None:
-                    self.SpreadsheetArea.setItem(row, column, QTableWidgetItem(cell_text))
+                    self.SpreadsheetArea.setItem(
+                        row, column, QTableWidgetItem(cell_text)
+                    )
 
     def restoreCurrentCell(self):
         current_row = int(settings.value("currentRow", 0))
         current_column = int(settings.value("currentColumn", 0))
         self.SpreadsheetArea.setCurrentCell(current_row, current_column)
-        self.SpreadsheetArea.scrollToItem(self.SpreadsheetArea.item(current_row, current_column))
+        self.SpreadsheetArea.scrollToItem(
+            self.SpreadsheetArea.item(current_row, current_column)
+        )
 
     def restoreTheme(self):
         app_theme = settings.value("appTheme")
@@ -502,24 +527,26 @@ class SS_Workbook(QMainWindow):
             settings.setValue("appTheme", "dark")
         else:
             self.setPalette(self.light_theme)
-            settings.setValue("appTheme", "light")    
+            settings.setValue("appTheme", "light")
         settings.sync()
         app_theme = settings.value("appTheme")
         self.toolbarTheme()
         self.applyTableStyle(app_theme)
-        
+
     def applyTableStyle(self, app_theme):
         border_color = "#BDB395" if app_theme == "dark" else "#F2E2B1"
         bg_color = "#333" if app_theme == "dark" else "#f5f5f5"
         text_color = "white" if app_theme == "dark" else "black"
 
-        self.SpreadsheetArea.setStyleSheet(f"""
+        self.SpreadsheetArea.setStyleSheet(
+            f"""
         QTableWidget::item {{
             border: 1px solid {border_color};
             background-color: {bg_color};
             color: {text_color};
         }}
-        """)
+        """
+        )
 
     def toolbarTheme(self):
         text_color = QColor(255, 255, 255)
