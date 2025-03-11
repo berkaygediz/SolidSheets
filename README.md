@@ -32,6 +32,8 @@ SolidSheets is a lightweight spreadsheet editor written in Python, utilizing the
 - pandas
 - openpyxl
 - statsmodels
+- xlrd
+- pyinstaller
 
 ## Installation
 
@@ -50,7 +52,7 @@ SolidSheets is a lightweight spreadsheet editor written in Python, utilizing the
 3. Creating a executable file (Unsigned):
 
    ```bash
-   pyinstaller --noconfirm --onefile --windowed --icon "solidsheets_icon.ico" --name "SolidSheets" --clean --optimize "2" "SolidSheets.py"
+   pyinstaller --noconfirm --noconsole --onefile --windowed --icon "solidsheets_icon.ico" --name "SolidSheets" --clean --optimize "2" "SolidSheets.py"
    ```
 
 ## Usage
