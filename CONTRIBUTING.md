@@ -1,67 +1,46 @@
-# Contributing to SolidSheets
+# Contributing to SolidSheets  
 
-Thank you for considering contributing to SolidSheets! We welcome your contributions.
+Thank you for your interest in contributing to SolidSheets! Your help in improving the project is always welcome.  
 
-Before contributing, please take a moment to review this document to ensure a smooth and efficient collaboration process.
+## How to Contribute  
 
-## Ways to Contribute
+1. **Fork & Clone the Repository**  
+   Fork the [SolidSheets repository](https://github.com/berkaygediz/SolidSheets) on GitHub, then clone it to your local machine:  
 
-- Reporting issues
-- Fixing bugs
-- Implementing new features
-- Improving documentation
-- Refactoring code
-- Providing suggestions and feedback
+   ```bash
+   git clone https://github.com/your-username/SolidSheets.git
+   ```  
 
-## Getting Started
+2. **Create a Branch**  
+   Create a new branch for your changes:  
 
-1. Fork the repository to your GitHub account.
+   ```bash
+   git checkout -b feature/your-feature-name
+   ```  
 
-2. Clone the forked repository to your local machine:
+3. **Make & Test Your Changes**  
+   - Modify the code as needed.  
+   - Follow PEP 8 coding style.  
+   - Test your changes to ensure everything works as expected.  
 
-    ```bash
-    git clone https://github.com/berkaygediz/SolidSheets.git
-    ```
+4. **Commit & Push**  
+   Once your changes are ready, commit and push them to your fork:  
 
-3. Set up your development environment. You may need to install dependencies:
+   ```bash
+   git commit -m "Describe your changes"
+   git push origin feature/your-feature-name
+   ```  
 
-    ```bash
-    # Install required dependencies
-    # Example: PySide6
-    pip install PySide6
-    ```
+5. **Open a Pull Request**  
+   Go to the [SolidSheets repository](https://github.com/berkaygediz/SolidSheets) and create a new pull request. Add a clear description of your changes.  
 
-4. Make your changes and modifications.
+6. **Review & Merge**  
+   Your pull request will be reviewed. If needed, make any requested changes. Once approved, it will be merged into the main repository.  
 
-5. Ensure that your changes pass the existing tests (if available) and adhere to the project's coding standards.
+## Reporting Issues  
 
-6. Commit your changes and push to your fork:
+If you find a bug or have an idea for improvement, please [create an issue](https://github.com/berkaygediz/SolidSheets/issues) on GitHub.  
 
-    ```bash
-    git add .
-    git commit -m "Brief description of your changes"
-    git push origin main
-    ```
+## Code of Conduct  
 
-7. Create a pull request (PR) to the `main` branch of the original repository.
-
-8. Wait for a review and address any feedback or comments raised during the review process.
-
-## Code Guidelines
-
-- Follow the existing code style and conventions.
-- Write clear and informative commit messages.
-- Keep the code clean and maintainable.
-
-## Reporting Issues
-
-If you encounter any issues or bugs, please report them by opening an issue on the repository. Include relevant information to reproduce the issue and steps to replicate it.
-
-## Development Environment
-
-- Python 3.x
-- PySide6
-
-## License
-
-By contributing to SolidSheets, you agree that your contributions will be licensed under the project's [LICENSE](LICENSE).
+Please follow our [Code of Conduct](CODE_OF_CONDUCT.md) to maintain a welcoming and respectful community.

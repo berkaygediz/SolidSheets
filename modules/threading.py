@@ -1,24 +1,20 @@
 import time
 
-from PySide6.QtCore import *
+from PySide6.QtCore import QThread, Signal
 
 
 class ThreadingEngine(QThread):
     update = Signal()
 
-    def __init__(self, adaptiveResponse, parent=None):
+    def __init__(self, adaptiveResponse: float, parent=None):
         super(ThreadingEngine, self).__init__(parent)
-        self.adaptiveResponse = float(adaptiveResponse)
+        self.adaptiveResponse = adaptiveResponse
         self.running = False
-        self.mutex = QMutex()
 
     def run(self):
-        if not self.running:
-            self.mutex.lock()
-            self.running = True
-            self.mutex.unlock()
-            time.sleep(0.15 * self.adaptiveResponse)
-            self.update.emit()
-            self.mutex.lock()
-            self.running = False
-            self.mutex.unlock()
+        if self.running:
+            return
+        self.running = True
+        time.sleep(0.15 * self.adaptiveResponse)
+        self.update.emit()
+        self.running = False
