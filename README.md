@@ -6,11 +6,11 @@
 ![GitHub repo size](https://img.shields.io/github/repo-size/berkaygediz/solidsheets)
 ![GitHub](https://img.shields.io/github/license/berkaygediz/solidsheets)
 
-SolidSheets is a lightweight spreadsheet editor written in Python, utilizing the PySide6 library for its graphical interface. It offers a straightforward alternative to traditional spreadsheet applications, emphasizing simplicity and efficiency.
+SolidSheets offers a user-friendly interface and powerful features to manage and analyze your data. Easily open, edit, and print CSV, SSFS/SSFS64, and XLSX files. With advanced formulas, charts, and machine learning algorithms, accelerate your workflow. Efficient and energy-friendly!
 
 ## Features
 
-- [x] **File Operations**: Open and save CSV, SSFS (SolidSheets Files) & XLSX (partial).
+- [x] **File Operations**: Open and save CSV, SSFS/SSFS64 (SolidSheets Files) & XLSX (partial).
 - [x] **Printing**: Print or export tables to PDF format.
 - [x] **Editing**: Modify tables with options to delete, edit rows, and columns.
 - [x] **Formula Support**: Includes functions like avg, sum, min, max, count, similargraph, pointgraph, bargraph, piegraph & histogram.
@@ -19,7 +19,7 @@ SolidSheets is a lightweight spreadsheet editor written in Python, utilizing the
 - [x] **User Experience**: Alerts for unsaved changes and supports dark/light mode.
 - [x] **Real-Time Statistics**: Displays live updates on row count, column count, and cell count.
 - [x] **Multilingual**: Available in English, Turkish, German, Spanish, Azerbaijani, Uzbek, Chinese, Korean, Japanese, Arabic, Russian, French, Greek, Kinyarwanda & Hebrew.
-- [x] **Cross-Platform**: Compatible with Windows, macOS, and Linux.
+- [x] **Cross-Platform**: Compatible with Windows, macOS (experimental), and Linux (experimental).
 - [x] **Efficiency**: Designed for power-saving and utilizes hardware acceleration.
 - [x] **Machine Learning**: Integrated machine learning algorithms for linear regression.
 

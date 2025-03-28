@@ -24,6 +24,7 @@ from PySide6.QtWidgets import (QApplication, QComboBox, QDockWidget,
                                QTableWidgetItem, QToolBar, QVBoxLayout,
                                QWidget)
 
+from modules.crypto import CryptoEngine
 from modules.globals import (fallbackValues, formulas, graphformulas,
                              languages, translations)
 from modules.threading import ThreadingEngine
@@ -428,6 +429,7 @@ class SS_Workbook(QMainWindow):
         self.statusBar().addPermanentWidget(self.statistics_label)
         self.updateTitle()
 
+        self.is_saved = False
         self.SpreadsheetArea.resizeColumnsToContents()
         self.SpreadsheetArea.resizeRowsToContents()
 
@@ -1170,7 +1172,7 @@ class SS_Workbook(QMainWindow):
 
             if self.file_name.endswith(".xlsx"):
                 self.loadSpreadsheetFromExcel(self.file_name)
-            elif selected_file.endswith((".ssfs", ".xsrc", ".csv")):
+            elif selected_file.endswith((".ssfs", ".ssfs64", ".xsrc", ".csv")):
                 self.loadSpreadsheet(selected_file)
 
             self.directory = os.path.dirname(self.file_name)
@@ -1195,31 +1197,38 @@ class SS_Workbook(QMainWindow):
             QMessageBox.warning(self, None, f"Conversion failed: {e}")
 
     def loadSpreadsheetFromOrigin(self, file_name):
-        if file_name.endswith((".ssfs", ".xsrc", ".csv")):
+        if file_name.endswith((".ssfs", ".ssfs64", ".xsrc", ".csv")):
             self.loadSpreadsheet(file_name)
 
     def loadSpreadsheet(self, file_path):
         try:
             with open(file_path, "r", encoding="utf-8") as file:
-                reader = csv.reader(file)
-                data = list(reader)
+                file_content = file.read().strip()
 
-                if data:
-                    column_headers = [
-                        col if col.strip() else f"{i + 1}"
-                        for i, col in enumerate(data[0])
-                    ]
-                    self.SpreadsheetArea.setHorizontalHeaderLabels(column_headers)
+            if file_path.endswith(".ssfs64"):
+                encryption = CryptoEngine("SolidSheets")
+                decrypted_content = encryption.b64_decrypt(file_content)
+            else:
+                decrypted_content = file_content
 
-                    self.SpreadsheetArea.setRowCount(len(data))
-                    self.SpreadsheetArea.setColumnCount(len(column_headers))
+            reader = csv.reader(decrypted_content.splitlines())
+            data = list(reader)
 
-                    for row in range(len(data)):
-                        for column in range(len(data[row])):
-                            item = QTableWidgetItem(data[row][column])
-                            self.SpreadsheetArea.setItem(row, column, item)
+            if data:
+                column_headers = [
+                    col if col.strip() else f"{i + 1}" for i, col in enumerate(data[0])
+                ]
+                self.SpreadsheetArea.setHorizontalHeaderLabels(column_headers)
 
-                self.resizeTable()
+                self.SpreadsheetArea.setRowCount(len(data))
+                self.SpreadsheetArea.setColumnCount(len(column_headers))
+
+                for row in range(len(data)):
+                    for column in range(len(data[row])):
+                        item = QTableWidgetItem(data[row][column])
+                        self.SpreadsheetArea.setItem(row, column, item)
+
+            self.resizeTable()
         except Exception as e:
             QMessageBox.warning(self, None, f"Failed to load file: {e}")
 
@@ -1254,6 +1263,7 @@ class SS_Workbook(QMainWindow):
         save_method = {
             ".xlsx": self.saveAsExcel,
             ".ssfs": self.saveAsSSFS,
+            ".ssfs64": self.saveAsSSFS64,
             ".csv": self.saveAsCSV,
         }.get(file_extension, self.saveAsCSV)
 
@@ -1293,6 +1303,18 @@ class SS_Workbook(QMainWindow):
             self.status_bar.showMessage("Saved as SSFS file.", 2000)
         except Exception as e:
             QMessageBox.warning(self, "Error", f"Failed to save as SSFS: {e}")
+
+    def saveAsSSFS64(self):
+        try:
+            encryption = CryptoEngine("SolidSheets")
+            plain_text = "\n".join([",".join(map(str, row)) for row in self.cellData()])
+            encrypted_text = encryption.b64_encrypt(plain_text)
+            with open(self.file_name, "w", encoding="utf-8") as file:
+                file.write(encrypted_text)
+
+            self.status_bar.showMessage("Saved as encrypted SSFS64 file.", 2000)
+        except Exception as e:
+            QMessageBox.warning(self, "Error", f"Failed to save as SSFS65: {e}")
 
     def saveAsCSV(self):
         try:
@@ -1707,7 +1729,7 @@ if __name__ == "__main__":
     app.setOrganizationName("berkaygediz")
     app.setApplicationName("SolidSheets")
     app.setApplicationDisplayName("SolidSheets 2025.03")
-    app.setApplicationVersion("1.5.2025.03-3")
+    app.setApplicationVersion("1.5.2025.03-4")
     wb = SS_ControlInfo()
     wb.show()
     sys.exit(app.exec())
