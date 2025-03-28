@@ -6,6 +6,7 @@ The following table outlines which versions of SolidSheets receive security upda
 
 | Version         | Supported          |  
 | -------------- | ------------------ |  
+| 1.5.2025.03-4  | ❌ No longer supported |  
 | 1.5.2025.03-3  | ❌ No longer supported |  
 | 1.5.2025.03-2  | ❌ No longer supported |  
 | 1.5.2025.03-1  | ❌ No longer supported |  

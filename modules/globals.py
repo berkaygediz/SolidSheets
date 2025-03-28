@@ -11,8 +11,8 @@ fallbackValues = {
     "appTheme": "light",
     "appLanguage": "1252",
     "adaptiveResponse": 1,
-    "readFilter": "General File (*.ssfs *.xsrc *.csv *.xlsx)",
-    "writeFilter": "SolidSheets Workbook (*.ssfs);;Comma Separated Values (*.csv);;Excel (*.xlsx)",
+    "readFilter": "General (*.ssfs *.ssfs64 *.xsrc *.csv *.xlsx)",
+    "writeFilter": "SolidSheets Workbook (*.ssfs);; SolidSheets Base64 (*.ssfs64);;Comma Separated Values (*.csv);;Excel (*.xlsx)",
     "graphSaveFilter": "Portable Network Graphics (*.png);;JPEG Image Files (*.jpg; *.jpeg)",
 }
 
