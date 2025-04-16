@@ -18,7 +18,7 @@ SolidSheets offers a user-friendly interface and powerful features to manage and
 - [x] **Performance**: Fast and lightweight with threading support.
 - [x] **User Experience**: Alerts for unsaved changes and supports dark/light mode.
 - [x] **Real-Time Statistics**: Displays live updates on row count, column count, and cell count.
-- [x] **Multilingual**: Available in English, Turkish, German, Spanish, Azerbaijani, Uzbek, Chinese, Korean, Japanese, Arabic, Russian, French, Greek, Kinyarwanda & Hebrew.
+- [x] **Multilingual**: Available in English, Turkish, German, Spanish, Azerbaijani, Chinese, Korean, Japanese, Arabic, Russian, French, Greek, Kinyarwanda & Hebrew.
 - [x] **Cross-Platform**: Compatible with Windows, macOS (experimental), and Linux (experimental).
 - [x] **Efficiency**: Designed for power-saving and utilizes hardware acceleration.
 - [x] **Machine Learning**: Integrated machine learning algorithms for linear regression.
